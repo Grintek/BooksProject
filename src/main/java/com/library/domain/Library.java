@@ -2,14 +2,10 @@ package com.library.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.library.domain.books.Book;
-import io.swagger.annotations.ApiModelProperty;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.rmi.server.UID;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "library")
@@ -29,14 +25,14 @@ public class Library{
         this.name = name;
     }
 
-    public Library(String name, Book book) {
+    public Library(String name, List<Book> book) {
         this.name = name;
         this.book = book;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "book_id", nullable = false)
-    private Book book;
+    private List<Book> book = new ArrayList<Book>();
 
     public Long getId() {
         return id;
@@ -54,11 +50,11 @@ public class Library{
         this.name = name;
     }
 
-    public Book getBook() {
+    public List<Book> getBook() {
         return book;
     }
 
-    public void setBook(Book book) {
+    public void setBook(List<Book> book) {
         this.book = book;
     }
 }

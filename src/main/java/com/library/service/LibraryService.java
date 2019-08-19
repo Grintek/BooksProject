@@ -16,7 +16,7 @@ public class LibraryService {
 
     public String saveLibrary(Library library){
         libraryRepo.save(library);
-        return "библиотека добавлина" + library.getId();
+        return "library add" + library.getId();
     }
 
     public Library getLibrary(Long libraryId){

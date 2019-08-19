@@ -6,8 +6,11 @@ import com.library.service.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/library")
@@ -23,10 +26,11 @@ public class LibraryController {
     }
 
     @GetMapping
-    public String library(){
-        return "Библиотека";
+    public List<Library> library(){
+        List<Library> lib = library.findAll();
+        return lib;
     }
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/add-lib")
     public ResponseEntity addLibrary(@RequestBody Library lib){
         libraryService.saveLibrary(lib);
@@ -34,8 +38,8 @@ public class LibraryController {
     }
 
     @GetMapping("/{id}")
-    public String books(@RequestParam("id")Integer id, Model model){
+    public Library libraries(@PathVariable("id") Long id){
 
-        return "libraryBooks";
+        return libraryService.getLibrary(id);
     }
 }

@@ -22,13 +22,10 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                 <#if !user??>
                     <a class="dropdown-item" href="/login">Войти</a>
-                    <a class="dropdown-item" href="/registration">Регистрация</a>
+                    <a class="dropdown-item" href="/registr">Регистрация</a>
                 </#if>
                 <#if user??>
                     <a class="dropdown-item" href="/user/profile">Профиль</a>
-                    <#if isChannel>
-                        <a class="dropdown-item" href="/user/channeledit">Совой канал</a>
-                    </#if>
                 </#if>
                 <#if isAdmin>
                     <li class="nav-item">
@@ -36,7 +33,7 @@
                     </li>
                 </#if>
                 <#if user??>
-                    <@l.logaut/>
+                    <@l.logout/>
                 </#if>
             </div>
         </div>

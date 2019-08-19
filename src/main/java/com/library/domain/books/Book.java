@@ -1,5 +1,7 @@
 package com.library.domain.books;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
@@ -9,6 +11,7 @@ import java.util.Set;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
     @NotBlank(message = "не может быть пустым")
     private String name;
@@ -18,7 +21,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(String name, String description, Set<Author> authors, Set<Genre> genres, Set<PublishingHouses> publishing) {
+    public Book(String name, String description, Set<Author> authors, Set<Genre> genres, PublishingHouses publishing) {
         this.name = name;
         this.description = description;
         this.authors = authors;
@@ -38,8 +41,8 @@ public class Book {
     inverseJoinColumns = { @JoinColumn(name = "fk_genre")})
     private Set<Genre> genres = new HashSet<Genre>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "books")
-    private Set<PublishingHouses> publishing = new HashSet<PublishingHouses>();
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private PublishingHouses publishing;
 
     public Long getId() {
         return id;
@@ -81,11 +84,11 @@ public class Book {
         this.genres = genres;
     }
 
-    public Set<PublishingHouses> getPublishing() {
+    public PublishingHouses getPublishing() {
         return publishing;
     }
 
-    public void setPublishing(Set<PublishingHouses> publishing) {
+    public void setPublishing(PublishingHouses publishing) {
         this.publishing = publishing;
     }
 }
