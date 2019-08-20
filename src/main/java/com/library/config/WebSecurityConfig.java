@@ -22,9 +22,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private DataSource dataSource;
-
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
@@ -38,15 +35,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll();
+        http.csrf().ignoringAntMatchers("/registr", "/add-lib");
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/swagger-ui.html")
-                .antMatchers("/webjars/springfox-swagger-ui/**")
-                .antMatchers("/swagger-resources/**")
-                .antMatchers("/v2/api-docs")
-        .antMatchers(HttpMethod.POST, "/registr");
+        web.ignoring().antMatchers("/v2/api-docs/**");
+        web.ignoring().antMatchers("/swagger.json");
+        web.ignoring().antMatchers("/swagger-ui.html");
+        web.ignoring().antMatchers("/swagger-resources/**");
+        web.ignoring().antMatchers("/webjars/**");
     }
 
     @Override

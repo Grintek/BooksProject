@@ -10,10 +10,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/library")
 public class LibraryController {
     @Autowired
     private LibraryRepo library;
@@ -25,19 +25,24 @@ public class LibraryController {
         this.libraryService = libraryService;
     }
 
-    @GetMapping
+
+    @GetMapping("/library")
     public List<Library> library(){
         List<Library> lib = library.findAll();
         return lib;
     }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/add-lib")
-    public ResponseEntity addLibrary(@RequestBody Library lib){
+    public ResponseEntity addLibrary(@RequestParam String name){
+
+        Library lib = new Library(name);
+
         libraryService.saveLibrary(lib);
         return new ResponseEntity("Библиотека создана",HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/library/{id}")
     public Library libraries(@PathVariable("id") Long id){
 
         return libraryService.getLibrary(id);
