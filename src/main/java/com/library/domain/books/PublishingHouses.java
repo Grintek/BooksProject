@@ -1,9 +1,12 @@
 package com.library.domain.books;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.library.domain.View;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -11,15 +14,22 @@ import java.util.Set;
 public class PublishingHouses {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
+    @JsonView(View.Id.class)
     private Long id;
 
     @JoinColumn(name = "publish_name")
+    @JsonView(View.Book.class)
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "book_id", nullable = false)
-    private Book books;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "publishing")
+    private Set<Book> books;
+
+    public PublishingHouses() {
+    }
+
+    public PublishingHouses(String name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
@@ -37,11 +47,11 @@ public class PublishingHouses {
         this.name = name;
     }
 
-    public Book getBooks() {
+    public Set<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(Book books) {
+    public void setBooks(Set<Book> books) {
         this.books = books;
     }
 }

@@ -1,6 +1,6 @@
 package com.library.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.library.domain.books.Book;
 
 import javax.persistence.*;
@@ -12,11 +12,17 @@ import java.util.List;
 public class Library{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
+    @JsonView(View.Id.class)
     private Long id;
 
+    @JsonView(View.Name.class)
     @Column(name = "name_library")
     private String name;
+
+
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "library")
+    @JsonView(View.Book.class)
+    private List<Book> book = new ArrayList<Book>();
 
     public Library() {
     }
@@ -25,14 +31,12 @@ public class Library{
         this.name = name;
     }
 
-    public Library(String name, List<Book> book) {
+    public Library(String name, List<com.library.domain.books.Book> book) {
         this.name = name;
         this.book = book;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "book_id", nullable = false)
-    private List<Book> book = new ArrayList<Book>();
+
 
     public Long getId() {
         return id;
@@ -50,11 +54,11 @@ public class Library{
         this.name = name;
     }
 
-    public List<Book> getBook() {
+    public List<com.library.domain.books.Book> getBook() {
         return book;
     }
 
-    public void setBook(List<Book> book) {
+    public void setBook(List<com.library.domain.books.Book> book) {
         this.book = book;
     }
 }

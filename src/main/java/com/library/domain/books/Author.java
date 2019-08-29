@@ -1,23 +1,32 @@
 package com.library.domain.books;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.library.domain.View;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
+    @JsonView(View.Id.class)
     private Long id;
 
     @Column(name = "name_author")
+    @JsonView(View.Book.class)
     private String nameAuthor;
 
     @ManyToMany(mappedBy = "authors")
-    private Set<Book> authorSet = new HashSet<Book>();
+    private Set<Book> bookSet;
+
+    public Author() {
+    }
+
+    public Author(String nameAuthor) {
+        this.nameAuthor = nameAuthor;
+    }
 
     public Long getId() {
         return id;
@@ -35,11 +44,11 @@ public class Author {
         this.nameAuthor = nameAuthor;
     }
 
-    public Set<Book> getAuthorSet() {
-        return authorSet;
+    public Set<Book> getBookSet() {
+        return bookSet;
     }
 
-    public void setAuthorSet(Set<Book> authorSet) {
-        this.authorSet = authorSet;
+    public void setBookSet(Set<Book> bookSet) {
+        this.bookSet = bookSet;
     }
 }

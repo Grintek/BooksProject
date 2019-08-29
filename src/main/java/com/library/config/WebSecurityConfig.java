@@ -30,12 +30,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/login").defaultSuccessUrl("/swagger-ui.html").failureForwardUrl("/login")
                 .permitAll()
                 .and()
                 .logout()
                 .permitAll();
-        http.csrf().ignoringAntMatchers("/registr", "/add-lib");
+
+        http.csrf().ignoringAntMatchers("/registr", "/add-lib", "/library/**");
+
     }
 
     @Override

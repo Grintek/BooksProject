@@ -1,23 +1,32 @@
 package com.library.domain.books;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.library.domain.View;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
+    @JsonView(View.Id.class)
     private Long id;
 
     @Column(name = "name_genre")
+    @JsonView(View.Book.class)
     private String genre_name;
 
     @ManyToMany(mappedBy = "genres")
-    private Set<Book> books = new HashSet<Book>();
+    private Set<Book> books;
+
+    public Genre() {
+    }
+
+    public Genre(String genre_name) {
+        this.genre_name = genre_name;
+    }
 
     public Long getId() {
         return id;
