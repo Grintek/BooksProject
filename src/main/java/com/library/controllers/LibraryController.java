@@ -3,7 +3,10 @@ package com.library.controllers;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.library.domain.Library;
 import com.library.domain.View;
+import com.library.domain.books.Author;
 import com.library.domain.books.Book;
+import com.library.domain.books.Genre;
+import com.library.domain.books.PublishingHouses;
 import com.library.repos.LibraryRepo;
 import com.library.service.BookService;
 import com.library.service.LibraryService;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 public class LibraryController {
@@ -56,28 +60,31 @@ public class LibraryController {
         return libraryService.getLibraryId(id);
     }
 
-    //добавляем книгу в библеотеку по id
+    //добавляем книгу в нужную библеотеку по id
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/library/{id}/addbook")
     public ResponseEntity addBook(
-            @RequestParam String nameBook,
-            @RequestParam String description,
-            @RequestParam String author,
-            @RequestParam String genre,
-            @RequestParam String publish,
-            @PathVariable("id") Library library){
+            @PathVariable("id") Library library, @RequestBody Book book){
 
-        bookService.addBook(library, nameBook, description, author, genre, publish);
+        bookService.addBook(library, book);
 
         return new ResponseEntity("Библиотека создана",HttpStatus.OK);
     }
 
     @GetMapping("/library/{id}/book-{name}")
-    public String book(
+    @JsonView(View.Book.class)
+    public List<Book> book(
             @PathVariable("id") Library library,
-            @PathVariable("name") Book book
+            @PathVariable("name") String nameBook
     ){
+        return bookService.getBook(library, nameBook);
+    }
 
-
-        return "";
+    @PostMapping("/library/updatebook-{nameUp}")
+    @JsonView(View.Book.class)
+    public ResponseEntity updateBook(@PathVariable("nameUp") String upBook,
+                                     @RequestBody Book book){
+        bookService.updateBook(book, upBook);
+        return new ResponseEntity("Update book done",HttpStatus.OK);
     }
 }

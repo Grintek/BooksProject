@@ -8,7 +8,11 @@ public class View {
     }
 
 
-    public interface Book extends Id {
+    public interface Book extends Id{
+
+    }
+
+    public interface upBook{
 
     }
 }

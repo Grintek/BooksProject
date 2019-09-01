@@ -1,6 +1,8 @@
 package com.library.domain.books;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.library.domain.View;
 
@@ -16,16 +18,18 @@ public class Genre {
 
     @Column(name = "name_genre")
     @JsonView(View.Book.class)
-    private String genre_name;
+    private String name;
 
     @ManyToMany(mappedBy = "genres")
+    @JsonIgnore
     private Set<Book> books;
 
     public Genre() {
     }
 
-    public Genre(String genre_name) {
-        this.genre_name = genre_name;
+    @JsonCreator
+    public Genre(@JsonProperty("name") String name) {
+        this.name = name;
     }
 
     public Long getId() {
@@ -36,12 +40,12 @@ public class Genre {
         this.id = id;
     }
 
-    public String getGenre_name() {
-        return genre_name;
+    public String getName() {
+        return name;
     }
 
-    public void setGenre_name(String genre_name) {
-        this.genre_name = genre_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Set<Book> getBooks() {

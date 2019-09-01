@@ -1,6 +1,8 @@
 package com.library.domain.books;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.library.domain.View;
 
@@ -22,12 +24,15 @@ public class PublishingHouses {
     private String name;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "publishing")
+    @JsonIgnore
     private Set<Book> books;
 
+    @JsonCreator
     public PublishingHouses() {
     }
 
-    public PublishingHouses(String name) {
+    @JsonCreator
+    public PublishingHouses(@JsonProperty("name") String name) {
         this.name = name;
     }
 

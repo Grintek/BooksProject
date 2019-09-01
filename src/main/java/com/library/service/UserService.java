@@ -26,7 +26,6 @@ public class UserService implements UserDetailsService {
     private UserRepo userRepo;
 
     public boolean addUser(User user){
-
         User userFormDB = userRepo.findByUsername(user.getUsername());
 
         if(userFormDB != null){
@@ -38,7 +37,7 @@ public class UserService implements UserDetailsService {
         user.setPassword(user.getPassword());
 
         userRepo.save(user);
-
         return true;
     }
+
 }
