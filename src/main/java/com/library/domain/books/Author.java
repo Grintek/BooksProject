@@ -17,12 +17,12 @@ public class Author {
     private Long id;
 
     @Column(name = "name_author")
-    @JsonView(View.Book.class)
+    @JsonView(View.Name.class)
     private String name;
 
 
     @ManyToMany(mappedBy = "authors")
-    @JsonIgnore
+    @JsonView(View.upBook.class)
     private Set<Book> books;
 
     public Author() {

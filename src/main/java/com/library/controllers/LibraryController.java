@@ -43,24 +43,32 @@ public class LibraryController {
         return libraryRepo.findAll();
     }
 
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/add-lib")
     public ResponseEntity addLibrary(@RequestParam String name){
-
         Library lib = new Library(name);
-
         libraryService.saveLibrary(lib);
         return new ResponseEntity("Библиотека создана",HttpStatus.OK);
     }
 
-    //тут получаме все книги в библеоте под id
+    /**
+     * получаме все книги в библеоте по ee id
+     * @param id
+     * @return
+     */
     @GetMapping("/library/{id}")
     @JsonView(View.Book.class)
     public Optional<Library> libraries(@PathVariable("id") Long id){
         return libraryService.getLibraryId(id);
     }
 
-    //добавляем книгу в нужную библеотеку по id
+    /**
+     * добавляем книгу в нужную библеотеку по id
+     * @param library
+     * @param book
+     * @return
+     */
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/library/{id}/addbook")
     public ResponseEntity addBook(
@@ -71,6 +79,12 @@ public class LibraryController {
         return new ResponseEntity("Библиотека создана",HttpStatus.OK);
     }
 
+    /**
+     * Все книги которые хранятся в библиотеке
+     * @param library
+     * @param nameBook
+     * @return
+     */
     @GetMapping("/library/{id}/book-{name}")
     @JsonView(View.Book.class)
     public List<Book> book(
@@ -81,7 +95,6 @@ public class LibraryController {
     }
 
     @PostMapping("/library/updatebook-{nameUp}")
-    @JsonView(View.Book.class)
     public ResponseEntity updateBook(@PathVariable("nameUp") String upBook,
                                      @RequestBody Book book){
         bookService.updateBook(book, upBook);

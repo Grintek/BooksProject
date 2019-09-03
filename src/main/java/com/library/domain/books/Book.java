@@ -17,10 +17,10 @@ public class Book {
     @JsonView(View.Id.class)
     private Long id;
     @NotBlank(message = "не может быть пустым")
-    @JsonView(View.Book.class)
+    @JsonView(View.Name.class)
     private String name;
     @NotBlank(message = "не может быть пустым")
-    @JsonView(View.Book.class)
+    @JsonView(View.Name.class)
     private String description;
 
     public Book() {
@@ -61,6 +61,28 @@ public class Book {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "library_id", nullable = false)
     private Library library;
+
+    public void updatedBook(Book upBook){
+        if(!upBook.getAuthors().isEmpty()){
+            this.setAuthors(upBook.getAuthors());
+        }
+
+        if(!upBook.getGenres().isEmpty()){
+            this.setGenres(upBook.getGenres());
+        }
+
+        if(upBook.getDescription() != null){
+            this.setDescription(upBook.getDescription());
+        }
+
+        if(upBook.getName() != null){
+            this.setName(upBook.getName());
+        }
+
+        if(upBook.getPublishing() != null){
+            this.setPublishing(upBook.getPublishing());
+        }
+    }
 
     public Long getId() {
         return id;

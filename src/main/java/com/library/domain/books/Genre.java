@@ -17,11 +17,11 @@ public class Genre {
     private Long id;
 
     @Column(name = "name_genre")
-    @JsonView(View.Book.class)
+    @JsonView(View.Name.class)
     private String name;
 
     @ManyToMany(mappedBy = "genres")
-    @JsonIgnore
+    @JsonView(View.upBook.class)
     private Set<Book> books;
 
     public Genre() {

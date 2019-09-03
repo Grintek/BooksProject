@@ -20,7 +20,7 @@ public class PublishingHouses {
     private Long id;
 
     @JoinColumn(name = "publish_name")
-    @JsonView(View.Book.class)
+    @JsonView(View.Name.class)
     private String name;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "publishing")
