@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -99,5 +100,12 @@ public class LibraryController {
                                      @RequestBody Book book){
         bookService.updateBook(book, upBook);
         return new ResponseEntity("Update book done",HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/library/deletebook-{nameDelBook}")
+    public ResponseEntity deleteBook(@PathVariable("nameDelBook") String delBook){
+        libraryService.deleteBook(delBook);
+        return new ResponseEntity("Delete book", HttpStatus.OK);
     }
 }

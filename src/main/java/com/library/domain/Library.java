@@ -20,7 +20,7 @@ public class Library{
     private String name;
 
 
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "library")
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST}, mappedBy = "library")
     @JsonView(View.Book.class)
     private List<Book> book = new ArrayList<Book>();
 
@@ -37,6 +37,9 @@ public class Library{
     }
 
 
+    public void deleteBook(Book book){
+        this.book.remove(book);
+    }
 
     public Long getId() {
         return id;

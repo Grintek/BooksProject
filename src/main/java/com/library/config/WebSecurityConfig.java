@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
 
-        http.csrf().ignoringAntMatchers("/registr", "/add-lib", "/library/**");
+        http.csrf().ignoringAntMatchers("/book/**","/registr", "/add-lib", "/library/**");
 
     }
 

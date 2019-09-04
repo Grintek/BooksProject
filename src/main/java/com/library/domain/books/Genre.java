@@ -1,7 +1,6 @@
 package com.library.domain.books;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.library.domain.View;
@@ -25,11 +24,6 @@ public class Genre {
     private Set<Book> books;
 
     public Genre() {
-    }
-
-    @JsonCreator
-    public Genre(@JsonProperty("name") String name) {
-        this.name = name;
     }
 
     public Long getId() {

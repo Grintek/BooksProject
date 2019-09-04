@@ -1,7 +1,6 @@
 package com.library.domain.books;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.library.domain.View;
@@ -27,10 +26,7 @@ public class Author {
 
     public Author() {
     }
-    @JsonCreator
-    public Author(@JsonProperty("name") String name) {
-        this.name = name;
-    }
+
 
     public Long getId() {
         return id;

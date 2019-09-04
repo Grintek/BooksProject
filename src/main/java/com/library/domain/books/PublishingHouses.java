@@ -23,7 +23,7 @@ public class PublishingHouses {
     @JsonView(View.Name.class)
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "publishing")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "publishing")
     @JsonIgnore
     private Set<Book> books;
 
@@ -31,10 +31,6 @@ public class PublishingHouses {
     public PublishingHouses() {
     }
 
-    @JsonCreator
-    public PublishingHouses(@JsonProperty("name") String name) {
-        this.name = name;
-    }
 
     public Long getId() {
         return id;

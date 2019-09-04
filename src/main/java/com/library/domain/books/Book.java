@@ -31,34 +31,25 @@ public class Book {
         this.description = description;
     }
 
-    public Book(String name, String description, Set<Author> authors, Set<Genre> genres, PublishingHouses publishing, Library library) {
-        this.name = name;
-        this.description = description;
-        this.authors = authors;
-        this.genres = genres;
-        this.publishing = publishing;
-        this.library = library;
-    }
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "book_author",
     joinColumns = { @JoinColumn(name = "fk_book")},
     inverseJoinColumns = { @JoinColumn(name = "fk_author")})
     @JsonView(View.Book.class)
     private Set<Author> authors = new HashSet<Author>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "book_genre",
     joinColumns = { @JoinColumn(name = "fk_book")},
     inverseJoinColumns = { @JoinColumn(name = "fk_genre")})
     @JsonView(View.Book.class)
     private Set<Genre> genres = new HashSet<Genre>();
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JsonView(View.Book.class)
     private PublishingHouses publishing;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "library_id", nullable = false)
     private Library library;
 
