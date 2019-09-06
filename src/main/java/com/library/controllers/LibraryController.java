@@ -74,10 +74,8 @@ public class LibraryController {
     @PostMapping("/library/{id}/addbook")
     public ResponseEntity addBook(
             @PathVariable("id") Library library, @RequestBody Book book){
-
         bookService.addBook(library, book);
-
-        return new ResponseEntity("Библиотека создана",HttpStatus.OK);
+        return new ResponseEntity("library created",HttpStatus.OK);
     }
 
     /**
@@ -95,6 +93,7 @@ public class LibraryController {
         return bookService.getBook(library, nameBook);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/library/updatebook-{nameUp}")
     public ResponseEntity updateBook(@PathVariable("nameUp") String upBook,
                                      @RequestBody Book book){
@@ -102,8 +101,8 @@ public class LibraryController {
         return new ResponseEntity("Update book done",HttpStatus.OK);
     }
 
-
-    @DeleteMapping("/library/deletebook-{nameDelBook}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("/deletebook-{nameDelBook}")
     public ResponseEntity deleteBook(@PathVariable("nameDelBook") String delBook){
         libraryService.deleteBook(delBook);
         return new ResponseEntity("Delete book", HttpStatus.OK);

@@ -1,6 +1,5 @@
 package com.library.domain.books;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.library.domain.Library;
 import com.library.domain.View;
@@ -45,7 +44,7 @@ public class Book {
     @JsonView(View.Book.class)
     private Set<Genre> genres = new HashSet<Genre>();
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JsonView(View.Book.class)
     private PublishingHouses publishing;
 
